@@ -7,7 +7,7 @@ class SidewaysHillClimb:
         best_fitness = self.current_cube.fitness_value
 
         for successor in self.current_cube.generate_successors():
-            if successor.fitness_value < best_fitness:
+            if successor.fitness_value <= best_fitness:
                 best_successor = successor
                 best_fitness = successor.fitness_value
 
