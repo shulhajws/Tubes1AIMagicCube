@@ -15,3 +15,7 @@ class Cube:
         for i in range(5):
             print(f"Layer {i + 1}:\n{self.state[i]}\n")
 
+    def swap_two_elements(self, i, j, k, x, y, z): 
+        """Swap two elements in the cube state."""
+        self.state[i, j, k], self.state[x, y, z] = self.state[x, y, z], self.state[i, j, k]
+        self.fitness_value = self.calculate_fitness()

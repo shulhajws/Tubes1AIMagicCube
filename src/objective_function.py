@@ -63,3 +63,5 @@ if __name__ == "__main__":
     
     deviation = objective_function(cube)
     print("Total deviation from magic constant:", deviation)
+
+    # print(cube)
