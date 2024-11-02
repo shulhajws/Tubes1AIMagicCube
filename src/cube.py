@@ -1,37 +1,39 @@
 import numpy as np
 import random
+import time
 from objective_function import objective_function
 
 class Cube:
     def __init__(self, state=None):
         self.state = state if state is not None else np.random.permutation(np.arange(1, 126)).reshape(5, 5, 5)
+        self.switched_coordinate = None
         self.fitness_value = self.calculate_fitness()
     
     def calculate_fitness(self):
-        """Calculate and update the fitness value using the imported function."""
         return objective_function(self.state)
     
     def display(self):
-        """Print each layer of the cube for visualization."""
-        print(f"Fitness: {self.fitness_value}\n")
-        # for i in range(5):
-        #     print(f"Level {i + 1}:\n{self.state[i]}\n")
+        for i in range(5):
+            time.sleep(0.5)
+            print(f"Layer {i + 1}:\n{self.state[i]}\n")
+        
+        print()
 
     def swap_two_elements(self, i, j, k, x, y, z): 
-        """Swap two elements in the cube state."""
         self.state[i, j, k], self.state[x, y, z] = self.state[x, y, z], self.state[i, j, k]
         self.fitness_value = self.calculate_fitness()
     
     
     def generate_successors(self):
-        """Generate a list of successors by swapping elements."""
         successors = []
-        i, j, k = 0
+        i, j, k = 0, 0, 0
         x, y, z = 0, 0, 1
         while i < 4 and j < 4 and k < 4 : 
             successor = Cube(np.copy(self.state))
-            successor.swap_two_elements(i, j, k, x, y, z)
-            successors.append(successor)
+            if (x, y, z, i, j, k != self.switched_coordinate) :
+                successor.swap_two_elements(i, j, k, x, y, z)
+                successor.switched_coordinate = i, j, k, x, y, z
+                successors.append(successor)
             if (z < 4) :
                 z += 1
             elif (y < 4 and z == 4) : 
