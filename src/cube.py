@@ -13,8 +13,9 @@ class Cube:
     
     def display(self):
         """Print each layer of the cube for visualization."""
-        for i in range(5):
-            print(f"Layer {i + 1}:\n{self.state[i]}\n")
+        print(f"Fitness: {self.fitness_value}\n")
+        # for i in range(5):
+        #     print(f"Level {i + 1}:\n{self.state[i]}\n")
 
     def swap_two_elements(self, i, j, k, x, y, z): 
         """Swap two elements in the cube state."""
