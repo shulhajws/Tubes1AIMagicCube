@@ -19,3 +19,36 @@ class Cube:
         """Swap two elements in the cube state."""
         self.state[i, j, k], self.state[x, y, z] = self.state[x, y, z], self.state[i, j, k]
         self.fitness_value = self.calculate_fitness()
+    
+    
+    def generate_successors(self):
+        """Generate a list of successors by swapping elements."""
+        successors = []
+        i, j, k = 0
+        x, y, z = 0, 0, 1
+        while i < 4 and j < 4 and k < 4 : 
+            successor = Cube(np.copy(self.state))
+            successor.swap_two_elements(i, j, k, x, y, z)
+            successors.append(successor)
+            if (z < 4) :
+                z += 1
+            elif (y < 4 and z == 4) : 
+                y += 1
+                z = 0
+            elif (y == 4 and z == 4) :
+                if (x < 4) :
+                    x += 1
+                    y = 0
+                    z = 0
+                else : # x == 4
+                    if (k < 4) :
+                        k += 1
+                    elif (j < 4 and k == 4) :
+                        j += 1 
+                        k = 0
+                    elif (j == 4 and k == 4) :
+                        if (i < 4) :
+                            j = 0
+                            k = 0
+                        i += 1
+                    x, y, z = i, j, k + 1
