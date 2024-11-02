@@ -1,13 +1,11 @@
 import numpy as np
 
-magic_constant = 315
-
 def calculate_line_sum_deviation(line_sum):
-    """Calculate the absolute deviation of a line's sum from the target sum."""
+    """Calculate the absolute deviation of a line's sum from magic number."""
     return abs(line_sum - 315)
 
 def objective_function(cube):
-    """Calculate the objective function for the 5-degree diagonal magic cube."""
+    """Calculate the objective function"""
     total_deviation = 0
     
     # Sum deviations for rows, columns, and pillars

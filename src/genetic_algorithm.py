@@ -53,22 +53,28 @@ def crossover(parent1, parent2):
             mapping2[val1] = val2  
     
     # Resolve conflicts in child1_slice
-    for i in range(5):
-        for j in range(5):
-            if not (row_start <= i <= row_end and col_start <= j <= col_end):
-                original_value = child1_slice[i, j]
-                while original_value in mapping1:
-                    original_value = mapping1[original_value]
-                child1_slice[i, j] = original_value
+    for h in range (5):
+        for i in range(5):
+            for j in range(5):
+                if not (h==4 and row_start <= i <= row_end and col_start <= j <= col_end):
+                    if parent1.state[h,i,j] in mapping1:
+                        parent1.state[h,i,j] = mapping1[parent1.state[h,i,j]]
+                    # original_value = child1_slice[i, j]
+                    # while original_value in mapping1:
+                    #     original_value = mapping1[original_value]
+                    # child1_slice[i, j] = original_value
 
     # Resolve conflicts in child2_slice
-    for i in range(5):
-        for j in range(5):
-            if not (row_start <= i <= row_end and col_start <= j <= col_end):
-                original_value = child2_slice[i, j]
-                while original_value in mapping2:
-                    original_value = mapping2[original_value]
-                child2_slice[i, j] = original_value
+    for h in range (5):
+        for i in range(5):
+            for j in range(5):
+                if not (h==4 and row_start <= i <= row_end and col_start <= j <= col_end):
+                    if parent2.state[h,i,j] in mapping2:
+                        parent2.state[h,i,j] = mapping2[parent2.state[h,i,j]]
+                    # original_value = child2_slice[i, j]
+                    # while original_value in mapping2:
+                    #     original_value = mapping2[original_value]
+                    # child2_slice[i, j] = original_value
 
     # Place the modified slices back into the children states
     child1_state[:, :, layer] = child1_slice
@@ -88,12 +94,12 @@ def mutate(state):
 
 
 def genetic_algorithm(population_size, max_generations, mutation_rate):
+    """Genetic Algorithm general function."""
     # Initialize the population
     population = initialize_population(population_size)
     
     for generation in range(max_generations):
-        # Check if goal found alias 315
-        best_individual = max(population, key=lambda cube: cube.fitness_value)
+        best_individual = min(population, key=lambda cube: cube.fitness_value)
         # if isGoalState(best_individual): 
         #     print(f"Solution found in generation {generation}")
         #     return best_individual
