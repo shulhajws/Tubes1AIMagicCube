@@ -6,6 +6,7 @@ from objective_function import objective_function
 class Cube:
     def __init__(self, state=None):
         self.state = state if state is not None else np.random.permutation(np.arange(1, 126)).reshape(5, 5, 5)
+        self.switched_coordinate = None
         self.fitness_value = self.calculate_fitness()
     
     def calculate_fitness(self):
@@ -29,8 +30,10 @@ class Cube:
         x, y, z = 0, 0, 1
         while i < 4 and j < 4 and k < 4 : 
             successor = Cube(np.copy(self.state))
-            successor.swap_two_elements(i, j, k, x, y, z)
-            successors.append(successor)
+            if (x, y, z, i, j, k != self.switched_coordinate) :
+                successor.swap_two_elements(i, j, k, x, y, z)
+                successor.switched_coordinate = i, j, k, x, y, z
+                successors.append(successor)
             if (z < 4) :
                 z += 1
             elif (y < 4 and z == 4) : 
