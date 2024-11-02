@@ -25,7 +25,7 @@ class Cube:
     def generate_successors(self):
         """Generate a list of successors by swapping elements."""
         successors = []
-        i, j, k = 0
+        i, j, k = 0, 0, 0
         x, y, z = 0, 0, 1
         while i < 4 and j < 4 and k < 4 : 
             successor = Cube(np.copy(self.state))
