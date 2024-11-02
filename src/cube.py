@@ -1,4 +1,5 @@
 import numpy as np
+import random
 from objective_function import objective_function
 
 class Cube:
@@ -52,3 +53,17 @@ class Cube:
                             k = 0
                         i += 1
                     x, y, z = i, j, k + 1
+                    
+        return successors
+    
+    def find_random_successor(self) :
+        i1, j1, k1 = random.randint(0, 4), random.randint(0, 4), random.randint(0, 4)
+        i2, j2, k2 = random.randint(0, 4), random.randint(0, 4), random.randint(0, 4)
+
+        while ((i1, j1, k1) == (i2, j2, k2)) : 
+            i2, j2, k2 = random.randint(0, 4), random.randint(0, 4), random.randint(0, 4)
+
+        successor = Cube(np.copy(self.state))
+        successor.swap_two_elements(i1, j1, k1, i2, j2, k2)
+
+        return successor        
