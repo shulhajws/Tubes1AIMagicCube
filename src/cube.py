@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import time
 from objective_function import objective_function
 
 class Cube:
@@ -8,22 +9,21 @@ class Cube:
         self.fitness_value = self.calculate_fitness()
     
     def calculate_fitness(self):
-        """Calculate and update the fitness value using the imported function."""
         return objective_function(self.state)
     
     def display(self):
-        """Print each layer of the cube for visualization."""
         for i in range(5):
+            time.sleep(0.5)
             print(f"Layer {i + 1}:\n{self.state[i]}\n")
+        
+        print()
 
     def swap_two_elements(self, i, j, k, x, y, z): 
-        """Swap two elements in the cube state."""
         self.state[i, j, k], self.state[x, y, z] = self.state[x, y, z], self.state[i, j, k]
         self.fitness_value = self.calculate_fitness()
     
     
     def generate_successors(self):
-        """Generate a list of successors by swapping elements."""
         successors = []
         i, j, k = 0, 0, 0
         x, y, z = 0, 0, 1
