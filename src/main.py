@@ -3,6 +3,8 @@ from steepest_hill_climb import SteepestHillClimb
 from sideways_hill_climb import SidewaysHillClimb
 from random_restart_hill_climb import RandomRestartHillClimb
 from stochastic_hill_climb import StochasticHillClimb
+from simulated_annealing_algorithm import SimulatedAnnealing
+from genetic_algorithm import GeneticAlgorithm
 from visualizer import plot_cube_state
 from cube_replay import CubeReplayPlayer, isReplayIncluded
 import tkinter as tk
@@ -26,14 +28,7 @@ def generate_cube():
     
     return cube
 
-def play_cube_replay():
-    root = tk.Tk()
-    player = CubeReplayPlayer(root)
-    player.load_file()
-    root.protocol("WM_DELETE_WINDOW", player.stop)
-    root.mainloop()
-
-def instant_play_cube_replay(output_file):
+def play_cube_replay(output_file=None):
     root = tk.Tk()
     player = CubeReplayPlayer(root)
     player.load_file(output_file)
@@ -104,7 +99,8 @@ def main():
                     climber = StochasticHillClimb(cube)
                     result, final_iteration = climber.climb(output_file)
                 elif ans == "5":
-                    print("Simulated Annealing is not yet implemented.")
+                    algorithm = SimulatedAnnealing(cube)
+                    result, final_iteration = algorithm.simulated_annealing_algorithm(0.5, output_file)
                 elif ans == "6":
                     print("Genetic Algorithm is not yet implemented.")
                 elif ans == "7":
@@ -124,7 +120,7 @@ def main():
                 if output_file:
                     ans = input("Do you want to watch the replay of the cube solving process? (y/n): ")
                     if ans.lower() == "y":
-                        instant_play_cube_replay(output_file)
+                        play_cube_replay(output_file)
 
                 print()
                 print("Cube Menu:")

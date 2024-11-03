@@ -31,7 +31,7 @@ class SidewaysHillClimb:
 
             self.current_cube = best_successor
 
-            if output_file is not None:
+            if output_file:
                 self.history.append({
                     "iteration": iteration + 1,
                     "state": [[row.tolist() for row in layer] for layer in self.current_cube.state],
