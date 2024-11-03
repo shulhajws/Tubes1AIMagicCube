@@ -55,9 +55,3 @@ def objective_function(cube):
     total_deviation += calculate_line_sum_deviation(space_diag4_sum)
     
     return total_deviation
-
-if __name__ == "__main__":
-    cube = np.random.permutation(np.arange(1, 125+1)).reshape(5,5,5)
-    
-    deviation = objective_function(cube)
-    print("Total deviation from magic constant:", deviation)
