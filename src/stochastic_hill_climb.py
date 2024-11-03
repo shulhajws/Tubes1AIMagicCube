@@ -10,7 +10,9 @@ class StochasticHillClimb:
         }]
 
     def climb(self, output_file, max_iterations=1000):
-        for iteration in range(max_iterations):
+        iteration = 0
+
+        while iteration < max_iterations:
             neighbor = self.current_cube.find_random_successor()
 
             if neighbor.fitness_value < self.current_cube.fitness_value:
@@ -30,5 +32,7 @@ class StochasticHillClimb:
 
             if self.current_cube.fitness_value == 0:
                 break
+
+            iteration += 1
 
         return self.current_cube, iteration

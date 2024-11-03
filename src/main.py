@@ -13,7 +13,7 @@ def generate_cube():
     print("Generating Initial Cube State...")
     cube = Cube()
     
-    time.sleep(0.8)
+    time.sleep(0.6)
     print()
     print("Initial Cube State:")
     cube.display()
@@ -79,10 +79,11 @@ def main():
                 print("4. Stochastic Hill Climbing")
                 print("5. Simulated Annealing")
                 print("6. Genetic Algorithm")
+                print("7. Back to Main Menu")
 
                 while True:
                     ans = input("Choose the algorithm you want to use: ")
-                    if ans in ["1", "2", "3", "4", "5", "6"]:
+                    if ans in ["1", "2", "3", "4", "5", "6", "7"]:
                         break
                     print("Invalid input. Please try again.")
                     print()
@@ -106,6 +107,8 @@ def main():
                     print("Simulated Annealing is not yet implemented.")
                 elif ans == "6":
                     print("Genetic Algorithm is not yet implemented.")
+                elif ans == "7":
+                    break   
                 
                 
                 print()
@@ -118,9 +121,10 @@ def main():
                 if ans.lower() == "y":
                     plot_cube_state(result, final_iteration)
                 
-                ans = input("Do you want to watch the replay of the cube solving process? (y/n): ")
-                if ans.lower() == "y":
-                    instant_play_cube_replay(output_file)
+                if output_file:
+                    ans = input("Do you want to watch the replay of the cube solving process? (y/n): ")
+                    if ans.lower() == "y":
+                        instant_play_cube_replay(output_file)
 
                 print()
                 print("Cube Menu:")

@@ -21,7 +21,9 @@ class SidewaysHillClimb:
         return best_successor
 
     def climb(self, output_file, max_iterations=1000):
-        for iteration in range(max_iterations):
+        iteration = 0
+
+        while iteration < max_iterations:
             best_successor = self.find_best_successor()
 
             if best_successor.fitness_value > self.current_cube.fitness_value:
@@ -43,5 +45,7 @@ class SidewaysHillClimb:
 
             if self.current_cube.fitness_value == 0:
                 break
+
+            iteration += 1
 
         return self.current_cube, iteration
