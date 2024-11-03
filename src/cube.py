@@ -29,8 +29,8 @@ class Cube:
         i, j, k = 0, 0, 0
         x, y, z = 0, 0, 1
         while i < 4 and j < 4 and k < 4 : 
-            successor = Cube(np.copy(self.state))
             if ((x, y, z, i, j, k) != self.switched_coordinate) :
+                successor = Cube(np.copy(self.state))
                 successor.swap_two_elements(i, j, k, x, y, z)
                 successor.switched_coordinate = (i, j, k, x, y, z)
                 successors.append(successor)
