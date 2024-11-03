@@ -13,7 +13,7 @@ class Cube:
     def calculate_fitness(self):
         # Update this method to return best and worst lines as well
         fitness_value, best_lines, worst_lines = objective_function_latest(self.state)
-        return fitness_value, best_lines, worst_lines  # Capture best/worst lines
+        return fitness_value, best_lines, worst_lines  
 
     def display(self):
         for i in range(5):

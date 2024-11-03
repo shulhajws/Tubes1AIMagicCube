@@ -103,7 +103,7 @@ def objective_function_new(cube):
     line_sums.extend([space_diag1_sum, space_diag2_sum, space_diag3_sum, space_diag4_sum])
     
     # Calculate Mean Difference
-    mean_difference = np.mean([calculate_line_sum_deviation(sum_line, magic_number) for sum_line in line_sums])
+    mean_difference = np.mean([calculate_line_sum_deviation(sum_line) for sum_line in line_sums])
     
     # Calculate Variance
     avg_sum_line = np.mean(line_sums)
@@ -117,7 +117,6 @@ def objective_function_new(cube):
 def objective_function_latest(cube):
     """Calculate the objective function based on mean difference and variance of line sums, and track the best and worst lines."""
     alpha, beta = 0.5, 0.5
-    magic_number = 315
     line_sums = []
     best_lines = []
     worst_lines = []
@@ -146,27 +145,51 @@ def objective_function_latest(cube):
         for j in range(5):
             # Row [i, j, :]
             row_sum = np.sum(cube[i, j, :])
-            deviation = calculate_line_sum_deviation(row_sum, magic_number)
-            update_best_lines(deviation, [i, j, ':'])
-            update_worst_lines(deviation, [i, j, ':'])
+            deviation = calculate_line_sum_deviation(row_sum)
+            update_best_lines(deviation, [i, j, -1])
+            update_worst_lines(deviation, [i, j, -1])
             line_sums.append(row_sum)
 
             # Column [i, :, j]
             column_sum = np.sum(cube[i, :, j])
-            deviation = calculate_line_sum_deviation(column_sum, magic_number)
-            update_best_lines(deviation, [i, ':', j])
-            update_worst_lines(deviation, [i, ':', j])
+            deviation = calculate_line_sum_deviation(column_sum)
+            update_best_lines(deviation, [i, -1, j])
+            update_worst_lines(deviation, [i, -1, j])
             line_sums.append(column_sum)
 
             # Pillar [:, i, j]
             pillar_sum = np.sum(cube[:, i, j])
-            deviation = calculate_line_sum_deviation(pillar_sum, magic_number)
-            update_best_lines(deviation, [':', i, j])
-            update_worst_lines(deviation, [':', i, j])
+            deviation = calculate_line_sum_deviation(pillar_sum)
+            update_best_lines(deviation, [-1, i, j])
+            update_worst_lines(deviation, [-1, i, j])
             line_sums.append(pillar_sum)
 
+    # Calculate face diagonals (diagonals on each face)
+    for i in range(5):
+        # Layer's diagonals (horizontal and vertical on each layer)
+        face_diag1_sum = np.sum([cube[i, j, j] for j in range(5)])
+        face_diag2_sum = np.sum([cube[i, j, 5 - 1 - j] for j in range(5)])
+        line_sums.extend([face_diag1_sum, face_diag2_sum])
+        
+        # Layer's diagonals (side view)
+        face_diag3_sum = np.sum([cube[j, i, j] for j in range(5)])
+        face_diag4_sum = np.sum([cube[j, i, 5 - 1 - j] for j in range(5)])
+        line_sums.extend([face_diag3_sum, face_diag4_sum])
+        
+        # Another side view diagonals
+        face_diag5_sum = np.sum([cube[j, j, i] for j in range(5)])
+        face_diag6_sum = np.sum([cube[j, 5 - 1 - j, i] for j in range(5)])
+        line_sums.extend([face_diag5_sum, face_diag6_sum])
+
+    # Calculate space diagonals
+    space_diag1_sum = np.sum([cube[i, i, i] for i in range(5)])
+    space_diag2_sum = np.sum([cube[i, i, 5 - 1 - i] for i in range(5)])
+    space_diag3_sum = np.sum([cube[i, 5 - 1 - i, i] for i in range(5)])
+    space_diag4_sum = np.sum([cube[i, 5 - 1 - i, 5 - 1 - i] for i in range(5)])
+    line_sums.extend([space_diag1_sum, space_diag2_sum, space_diag3_sum, space_diag4_sum])
+
     # Calculate Mean Difference
-    mean_difference = np.mean([calculate_line_sum_deviation(sum_line, magic_number) for sum_line in line_sums])
+    mean_difference = np.mean([calculate_line_sum_deviation(sum_line) for sum_line in line_sums])
 
     # Calculate Variance
     avg_sum_line = np.mean(line_sums)
