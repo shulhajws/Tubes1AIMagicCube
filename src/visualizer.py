@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import json
 
 def plot_cube_state(cube, iteration):
     fig = plt.figure(figsize=(8, 8))
@@ -39,4 +40,19 @@ def plot_cube_state(cube, iteration):
 
     ax.view_init(elev=20, azim=30)
 
+    plt.show()
+
+def plot_objective_function(output_file):
+    with open("result/" + output_file, "r") as f:
+        history = json.load(f)
+    
+    iterations = [entry["iteration"] for entry in history]
+    fitness_values = [entry["fitness_value"] for entry in history]
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(iterations, fitness_values, marker="o", linestyle="-")
+    plt.title("Objective Function Value Over Iterations", fontsize=14, fontweight="bold")
+    plt.xlabel("Iterations")
+    plt.ylabel("Objective Function (Fitness Value)")
+    plt.grid(True)
     plt.show()

@@ -113,13 +113,13 @@ def plot_cube_state(ax, cube_state, iteration, fitness_value):
 
 def isReplayIncluded():
     ans_replay = input("Do you want to keep the replay of the cube solving process? (y/n): ")
-    if ans_replay.lower() == "y":
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        result_dir = os.path.join(base_dir, "../result")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    result_dir = os.path.join(base_dir, "../result")
 
-        if not os.path.exists(result_dir):
-            os.makedirs(result_dir)
-        
+    if not os.path.exists(result_dir):
+        os.makedirs(result_dir)
+    
+    if ans_replay.lower() == "y":
         while True:
             file_name = input("Enter the output file name (without extension): ")
             file_path = os.path.join(result_dir, f"{file_name}.json")
@@ -137,4 +137,4 @@ def isReplayIncluded():
                 print(f"The file will be saved as '{file_name}.json' in the 'result/' directory.")
                 return file_name+".json"
     else:
-        return None
+        return "temp-68943268950973503917903-347909730149437079043.json"
