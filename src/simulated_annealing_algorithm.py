@@ -12,8 +12,19 @@ class SimulatedAnnealing :
             "fitness_value": int(self.current_cube.fitness_value)
         }]
 
-    def temperature_function(self, iteration) :
-        return self.initial_temperature - (0.05 * iteration)
+    def temperature_function(self, choice, iteration) :
+        result = 0
+        if (choice == 1) :
+            result = self.initial_temperature / (1 + 0.05 * iteration * iteration)
+        elif (choice == 2) :
+            result  = self.initial_temperature - (0.05 * iteration)
+        elif (choice == 3) :
+            result = self.initial_temperature / (1 + 0.05 * math.log(iteration + 1))
+        elif (choice == 4) :
+            result = self.initial_temperature * math.pow(0.05, iteration)
+        else : 
+            result = self.initial_temperature / (1 + 0.05 * iteration * iteration)
+        return result
 
     def probability_function(delta_e, temperature) :
         return math.exp(((-1) * delta_e) / temperature)
@@ -22,8 +33,12 @@ class SimulatedAnnealing :
         current_state = self.initial_cube
         i = 0
 
+        print("Choose cooling schedule you want to use from options below!\n1. Default (Quadratic Multiplicative Monotonic)\n2. Linear Multiplicative Monotonic\n3. Logarithmic Multiplicative\n4. Exponential Multiplicative Monotonic")
+        temp_function_choice = int(input("Input your choice (1-4) : "))
+        print("")
+
         while (True and i < self.max_iterations) :
-            temperature = SimulatedAnnealing.temperature_function(self, i)
+            temperature = SimulatedAnnealing.temperature_function(self, temp_function_choice, i)
             if (temperature == 0) : 
                 return current_state, i
             
