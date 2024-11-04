@@ -11,8 +11,10 @@ class SimulatedAnnealing :
         self.history = [{
             "iteration": 0,
             "state": [[row.tolist() for row in layer] for layer in self.initial_cube.state],
-            "fitness_value": int(self.initial_cube.fitness_value)
+            "fitness_value": int(self.initial_cube.fitness_value),
         }]
+        self.probability_values = []
+        self.probability_iterations = []
 
     def temperature_function(self, choice, iteration) :
         result = 0
@@ -56,8 +58,11 @@ class SimulatedAnnealing :
             if state_value_difference < 0 :
                 current_state = neighbor
             else : 
-                if (SimulatedAnnealing.probability_function(state_value_difference, temperature) >= threshold) :
+                probability = SimulatedAnnealing.probability_function(state_value_difference, temperature)
+                if (probability >= threshold) :
                     current_state = neighbor
+                    self.probability_values.append(probability)
+                    self.probability_iterations.append(i)
             
             if output_file:
                 self.history.append({

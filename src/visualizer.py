@@ -56,3 +56,15 @@ def plot_objective_function(output_file):
     plt.ylabel("Objective Function (Fitness Value)")
     plt.grid(True)
     plt.show()
+
+def plot_probability(simulated_annealing_instance):
+    iterations = simulated_annealing_instance.probability_iterations
+    probabilities = simulated_annealing_instance.probability_values
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(iterations, probabilities, marker="o", linestyle="-")
+    plt.title("e^(-ΔE/T) Value Over Iterations")
+    plt.xlabel("Iterations")
+    plt.ylabel("e^(-ΔE/T)")
+    plt.grid(True)
+    plt.show()
