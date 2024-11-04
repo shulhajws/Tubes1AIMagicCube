@@ -136,11 +136,11 @@ def genetic_algorithm(population_size, max_iterations, mutation_rate, output_fil
             # Select parents using roulette wheel selection
             parent1 = roulette_wheel_selection(population)
             parent2 = roulette_wheel_selection(population)
-            print(f"parent1 {parent1.fitness_value} -  parent2 {parent2.fitness_value}")
+            # print(f"parent1 {parent1.fitness_value} -  parent2 {parent2.fitness_value}")
             
             # Apply crossover to produce two children
             child1, child2 = crossover_optimized(parent1, parent2)
-            print(f"child {child1.fitness_value} - {child2.fitness_value}")
+            # print(f"child {child1.fitness_value} - {child2.fitness_value}")
             
             # Apply mutation to children
             if random.random() < mutation_rate:

@@ -60,7 +60,7 @@ def main():
 
         while True:
             ans = input("Choose the action you want to do: ")
-            if ans in ["1", "2", "3"]:
+            if ans in ["1", "2", "3", "4"]:
                 break
             print("Invalid input. Please try again.")
             print()
