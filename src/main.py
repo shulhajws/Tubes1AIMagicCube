@@ -150,7 +150,7 @@ def main():
                 elif ans == "6":
                     population_size = int(input("Input the population size: "))
                     max_iterations = int(input("Input the maximum iteration: "))
-                    mutation_rate = float(input("Input the mutation rate: "))
+                    mutation_rate = float(input("Input the mutation rate (Between 0 and 1): "))
                     print()
                     
                     result, final_iteration, final_time = genetic_algorithm(population_size, max_iterations, mutation_rate, output_file)
