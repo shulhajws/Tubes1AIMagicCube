@@ -6,7 +6,7 @@ from stochastic_hill_climb import StochasticHillClimb
 from simulated_annealing_algorithm import SimulatedAnnealing
 from genetic_algorithm import genetic_algorithm
 
-from visualizer import plot_cube_state
+from visualizer import plot_cube_state, plot_fitness_per_iteration
 from cube_replay import CubeReplayPlayer, isReplayIncluded
 import tkinter as tk
 import time
@@ -96,7 +96,7 @@ def main():
                     if not max_iteration:
                         max_iteration = 1000
                     
-                    result, final_iteration, final_time = climber.climb(output_file, max_iteration)
+                    result, final_iteration, fitness_value_per_iteration, final_time = climber.climb(output_file, max_iteration)
 
                 elif ans == "2":
                     climber = SidewaysHillClimb(cube)
@@ -169,6 +169,10 @@ def main():
                 ans = input("Do you want to see the final cube's 3d representation? (y/n): ")
                 if ans.lower() == "y":
                     plot_cube_state(result, final_iteration)
+
+                ans = input("Do you want to see how the local search progress in each iteration? (y/n): ")
+                if ans.lower() == "y":
+                    plot_fitness_per_iteration(fitness_value_per_iteration)
                 
                 if output_file:
                     ans = input("Do you want to watch the replay of the cube solving process? (y/n): ")

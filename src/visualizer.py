@@ -40,3 +40,18 @@ def plot_cube_state(cube, iteration):
     ax.view_init(elev=20, azim=30)
 
     plt.show()
+
+def plot_fitness_per_iteration(fitness_value_per_iteration):
+    iterations = list(fitness_value_per_iteration.keys())
+    fitness_values = list(fitness_value_per_iteration.values())
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(iterations, fitness_values, marker='o',  color='purple', label="Fitness Value")
+
+    plt.title("Fitness Value over Iterations")
+    plt.xlabel("Iteration")
+    plt.ylabel("Fitness Value")
+    plt.legend()
+    plt.grid(True)
+    
+    plt.show()
