@@ -57,17 +57,14 @@ def plot_objective_function(output_file):
     plt.grid(True)
     plt.show()
 
-def plot_objective_function(output_file):
-    with open("result/" + output_file, "r") as f:
-        history = json.load(f)
-    
-    iterations = [entry["iteration"] for entry in history]
-    fitness_values = [entry["fitness_value"] for entry in history]
-    
+def plot_probability(simulated_annealing_instance):
+    iterations = simulated_annealing_instance.probability_iterations
+    probabilities = simulated_annealing_instance.probability_values
+
     plt.figure(figsize=(10, 6))
-    plt.plot(iterations, fitness_values, marker="o", linestyle="-")
-    plt.title("Objective Function Value Over Iterations", fontsize=14, fontweight="bold")
+    plt.plot(iterations, probabilities, marker="o", linestyle="-")
+    plt.title("e^(-ΔE/T) Value Over Iterations")
     plt.xlabel("Iterations")
-    plt.ylabel("Objective Function (Fitness Value)")
+    plt.ylabel("e^(-ΔE/T)")
     plt.grid(True)
     plt.show()

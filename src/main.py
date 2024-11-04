@@ -6,7 +6,7 @@ from stochastic_hill_climb import StochasticHillClimb
 from simulated_annealing_algorithm import SimulatedAnnealing
 from genetic_algorithm import genetic_algorithm
 
-from visualizer import plot_cube_state, plot_objective_function
+from visualizer import plot_cube_state, plot_objective_function, plot_probability
 from cube_replay import CubeReplayPlayer, isReplayIncluded
 import tkinter as tk
 import time
@@ -176,6 +176,11 @@ def main():
                 ans = input("Do you want to see the objective function value over iterations? (y/n): ")
                 if ans.lower() == "y":
                     plot_objective_function(output_file)
+
+                if algorithm:
+                    ans = input("Do you want to see the probability values over iterations? (y/n): ")
+                    if ans.lower() == "y":
+                        plot_probability(algorithm)
                 
                 if output_file != "temp-68943268950973503917903-347909730149437079043.json":
                     ans = input("Do you want to watch the replay of the cube solving process? (y/n): ")
@@ -217,7 +222,29 @@ def main():
             continue
 
         elif ans == "3":
-            output_file = input("Enter the output file name (without extension): ")
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            result_dir = os.path.join(base_dir, "../result")
+
+            while True:
+                output_file = input("Enter the output file name (without extension): ")
+
+                if not output_file:
+                    ans = input("Do you want to go back to the main menu? (y/n)")
+                    if ans.lower() == "y":
+                        isGoBack = True
+                        break
+
+                file_path = os.path.join(result_dir, f"{output_file}.json")
+
+                if os.path.isfile(file_path):
+                    break
+
+                print(f"The file '{output_file}.json' does not exist in the 'result/' directory. Please try again.")
+                print()
+
+            if isGoBack:
+                continue
+
             plot_objective_function(output_file)
             continue
 
