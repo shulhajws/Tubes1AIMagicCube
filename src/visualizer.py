@@ -42,11 +42,18 @@ def plot_cube_state(cube, iteration):
     plt.show()
 
 def plot_fitness_per_iteration(fitness_value_per_iteration):
-    iterations = list(fitness_value_per_iteration.keys())
-    fitness_values = list(fitness_value_per_iteration.values())
-    
+    is_random_restart = any(isinstance(value, dict) for value in fitness_value_per_iteration.values())
     plt.figure(figsize=(10, 6))
-    plt.plot(iterations, fitness_values, marker='o',  color='purple', label="Fitness Value")
+    
+    if is_random_restart:
+        for restart, iterations_dict in fitness_value_per_iteration.items():
+            iterations = list(iterations_dict.keys())
+            fitness_values = list(iterations_dict.values())
+            plt.plot(iterations, fitness_values, label=f"Random Restart {restart}", linestyle="--")
+    else:
+        iterations = list(fitness_value_per_iteration.keys())
+        fitness_values = list(fitness_value_per_iteration.values())
+        plt.plot(iterations, fitness_values, marker='o',  color='purple', label="Fitness Value")
 
     plt.title("Fitness Value over Iterations")
     plt.xlabel("Iteration")

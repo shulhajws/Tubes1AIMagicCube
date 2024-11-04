@@ -107,7 +107,7 @@ def main():
                     if not max_iteration:
                         max_iteration = 1000
                     
-                    result, final_iteration, final_time = climber.climb(output_file, max_iteration)
+                    result, final_iteration, fitness_value_per_iteration, final_time = climber.climb(output_file, max_iteration)
 
                 elif ans == "3":
                     climber = RandomRestartHillClimb(cube)
@@ -121,7 +121,7 @@ def main():
                     if not max_iteration:
                         max_iteration = 1000
 
-                    result, final_iteration, iterations_per_restart, final_time = climber.climb(output_file, max_restart, max_iteration)
+                    result, final_iteration, iterations_per_restart, fitness_value_per_iteration, final_time = climber.climb(output_file, max_restart, max_iteration)
                     for restart in iterations_per_restart:
                         print(f"Restart: {restart[0]} - Jumlah Iterasi: {restart[1]}\n")
 
@@ -134,7 +134,7 @@ def main():
                     if not max_iteration:
                         max_iteration = 1000
 
-                    result, final_iteration, final_time = climber.climb(output_file, max_iteration)
+                    result, final_iteration, fitness_value_per_iteration, final_time = climber.climb(output_file, max_iteration)
 
                 elif ans == "5":
                     algorithm = SimulatedAnnealing(cube)
