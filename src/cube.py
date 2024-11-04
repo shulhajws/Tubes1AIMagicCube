@@ -19,8 +19,6 @@ class Cube:
         for i in range(5):
             time.sleep(0.5)
             print(f"Layer {i + 1}:\n{self.state[i]}\n")
-        # print(f"Best Lines: {self.best_lines}")
-        # print(f"Worst Lines: {self.worst_lines}\n")
 
     def swap_two_elements(self, i, j, k, x, y, z):
         # Swap elements and recalculate fitness (including best/worst lines)
