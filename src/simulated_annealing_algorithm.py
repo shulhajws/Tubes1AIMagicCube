@@ -6,7 +6,7 @@ import time
 class SimulatedAnnealing : 
     def __init__(self, cube):
         self.initial_cube = cube
-        self.max_iterations = 5000
+        self.max_iterations = 2000
         self.initial_temperature = 100
         self.history = [{
             "iteration": 0,
@@ -53,7 +53,7 @@ class SimulatedAnnealing :
             
             neighbor = current_state.find_random_successor()
 
-            state_value_difference = neighbor.calculate_fitness() - current_state.calculate_fitness()
+            state_value_difference = neighbor.calculate_fitness()[0] - current_state.calculate_fitness()[0]
 
             if state_value_difference < 0 :
                 current_state = neighbor
