@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 def plot_cube_state(cube, iteration):
     fig = plt.figure(figsize=(8, 8))
     ax = fig.add_subplot(111, projection='3d')
-    ax.set_title(f"Iteration {iteration} - Fitness: {cube.fitness_value}", fontsize=14, fontweight='bold')
+    ax.set_title(f"Iteration {iteration} - Fitness: {cube.fitness_value:.2f}", fontsize=14, fontweight='bold')
 
     ax.set_xlim(0, 5)
     ax.set_ylim(0, 5)

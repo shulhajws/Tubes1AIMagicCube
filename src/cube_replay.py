@@ -81,7 +81,7 @@ class CubeReplayPlayer:
         self.canvas.draw()
 
 def plot_cube_state(ax, cube_state, iteration, fitness_value):
-    ax.set_title(f"Iteration {iteration} - Fitness: {fitness_value}", fontsize=14, fontweight='bold')
+    ax.set_title(f"Iteration {iteration} - Fitness: {fitness_value:.2f}", fontsize=14, fontweight='bold')
     ax.set_xlim(0, 5)
     ax.set_ylim(0, 5)
     ax.set_zlim(0, 5)

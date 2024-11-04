@@ -4,7 +4,6 @@ from sideways_hill_climb import SidewaysHillClimb
 from random_restart_hill_climb import RandomRestartHillClimb
 from stochastic_hill_climb import StochasticHillClimb
 from simulated_annealing_algorithm import SimulatedAnnealing
-from genetic_algorithm import GeneticAlgorithm
 from visualizer import plot_cube_state
 from cube_replay import CubeReplayPlayer, isReplayIncluded
 import tkinter as tk
@@ -19,7 +18,7 @@ def generate_cube():
     print()
     print("Initial Cube State:")
     cube.display()
-    print("Initial Fitness:", cube.fitness_value)
+    print(f"Initial Fitness: {cube.fitness_value:.2f}")
     print()
 
     ans = input("Do you want to see the cube's 3d representation? (y/n): ")
@@ -88,29 +87,30 @@ def main():
 
                 if ans == "1":
                     climber = SteepestHillClimb(cube)
-                    result, final_iteration = climber.climb(output_file)
+                    result, final_iteration, final_time = climber.climb(output_file)
                 elif ans == "2":
                     climber = SidewaysHillClimb(cube)
-                    result, final_iteration = climber.climb(output_file)
+                    result, final_iteration, final_time = climber.climb(output_file)
                 elif ans == "3":
                     climber = RandomRestartHillClimb(cube)
-                    result, final_iteration = climber.climb(output_file)
+                    result, final_iteration, final_time = climber.climb(output_file)
                 elif ans == "4":
                     climber = StochasticHillClimb(cube)
-                    result, final_iteration = climber.climb(output_file)
+                    result, final_iteration, final_time = climber.climb(output_file)
                 elif ans == "5":
                     algorithm = SimulatedAnnealing(cube)
-                    result, final_iteration = algorithm.simulated_annealing_algorithm(0.5, output_file)
+                    result, final_iteration, final_time = algorithm.simulated_annealing_algorithm(0.5, output_file)
                 elif ans == "6":
                     print("Genetic Algorithm is not yet implemented.")
                 elif ans == "7":
                     break   
                 
-                
+                print("\n\n")
+                print(f"Final cube state is reached after {final_iteration} iterations in {final_time:.2f} seconds.")
                 print()
-                print("Final Cube State after Climbing:")
+                print("Final cube state after climbing:")
                 result.display()
-                print("Final Fitness:", result.fitness_value)
+                print(f"Final Fitness: {result.fitness_value:.2f}")
 
                 print()
                 ans = input("Do you want to see the final cube's 3d representation? (y/n): ")
