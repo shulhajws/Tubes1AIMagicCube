@@ -6,10 +6,11 @@ from stochastic_hill_climb import StochasticHillClimb
 from simulated_annealing_algorithm import SimulatedAnnealing
 from genetic_algorithm import genetic_algorithm
 
-from visualizer import plot_cube_state, plot_fitness_per_iteration
+from visualizer import plot_cube_state, plot_objective_function
 from cube_replay import CubeReplayPlayer, isReplayIncluded
 import tkinter as tk
 import time
+import os
 
 def generate_cube():
     print()
@@ -54,7 +55,8 @@ def main():
         print("Main Menu: ")
         print("1. Solve a cube")
         print("2. Play a cube replay")
-        print("3. Exit")
+        print("3. See a cube's objective function value over iterations")
+        print("4. Exit")
 
         while True:
             ans = input("Choose the action you want to do: ")
@@ -169,15 +171,21 @@ def main():
                 ans = input("Do you want to see the final cube's 3d representation? (y/n): ")
                 if ans.lower() == "y":
                     plot_cube_state(result, final_iteration)
-
-                ans = input("Do you want to see how the local search progress in each iteration? (y/n): ")
-                if ans.lower() == "y":
-                    plot_fitness_per_iteration(fitness_value_per_iteration)
                 
-                if output_file:
+                print()
+                ans = input("Do you want to see the objective function value over iterations? (y/n): ")
+                if ans.lower() == "y":
+                    plot_objective_function(output_file)
+                
+                if output_file != "temp-68943268950973503917903-347909730149437079043.json":
                     ans = input("Do you want to watch the replay of the cube solving process? (y/n): ")
                     if ans.lower() == "y":
                         play_cube_replay(output_file)
+                else:
+                    base_dir = os.path.dirname(os.path.abspath(__file__))
+                    result_dir = os.path.join(base_dir, "../result")
+                    file_dir = os.path.join(result_dir, output_file)
+                    os.remove(file_dir)
 
                 print()
                 print("Cube Menu:")
@@ -209,6 +217,11 @@ def main():
             continue
 
         elif ans == "3":
+            output_file = input("Enter the output file name (without extension): ")
+            plot_objective_function(output_file)
+            continue
+
+        elif ans == "4":
             print()
             print("Thank you for using Diagonal Magic Cube Solver!")
             return
