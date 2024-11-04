@@ -50,7 +50,7 @@ def crossover_optimized(parent1, parent2):
     crossover_index_parent2 = []
 
     # crossover will be performed on child1 by "replacing" the parent1's worstline with parent2's bestline
-    for crossover_idx in range(3):
+    for crossover_idx in range(1):
         # Replace in child1 using parent2's best line
         worst_line_indices_parent1 = parent1.worst_lines[crossover_idx][1]
         best_line_indices_parent2 = parent2.best_lines[crossover_idx][1]
@@ -101,8 +101,8 @@ def crossover_optimized(parent1, parent2):
                 child2[n, best_line_indices_parent2[1], best_line_indices_parent2[2]] = parent1.state[n, worst_line_indices_parent1[1], worst_line_indices_parent1[2]]
                 crossover_index_parent2.append((n, best_line_indices_parent2[1], best_line_indices_parent2[2]))
                 
-    resolve_mapping_conflicts(child1, mapping1, set(crossover_index_parent1))
-    resolve_mapping_conflicts(child2, mapping2, set(crossover_index_parent2))
+    resolve_mapping_conflicts(child1, mapping2, set(crossover_index_parent1))
+    resolve_mapping_conflicts(child2, mapping1, set(crossover_index_parent2))
 
     # Return new Cube objects as children
     return Cube(child1), Cube(child2)
