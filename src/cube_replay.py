@@ -38,6 +38,10 @@ class CubeReplayPlayer:
             base_dir = os.path.dirname(os.path.abspath(__file__))
             file_path = os.path.join(base_dir, "../result", file_name)
         
+        if not file_path:
+            print("No file selected. Returning to main menu.")
+            return
+
         with open(file_path, 'r') as file:
             self.cube_data = json.load(file)
         self.progress.config(to=len(self.cube_data) - 1)
@@ -77,7 +81,7 @@ class CubeReplayPlayer:
         self.canvas.draw()
 
 def plot_cube_state(ax, cube_state, iteration, fitness_value):
-    ax.set_title(f"Iteration {iteration} - Fitness: {fitness_value}", fontsize=14, fontweight='bold')
+    ax.set_title(f"Iteration {iteration} - Fitness: {fitness_value:.2f}", fontsize=14, fontweight='bold')
     ax.set_xlim(0, 5)
     ax.set_ylim(0, 5)
     ax.set_zlim(0, 5)
@@ -122,7 +126,13 @@ def isReplayIncluded():
 
             if os.path.isfile(file_path):
                 print(f"The file '{file_name}.json' already exists in the 'result/' directory.")
-                print("Please enter a new file name.")
+                ans = input("Do you want to overwrite the file? (y/n): ")
+                if ans.lower() == "y":
+                    open(file_path, 'w').close()
+                    print(f"The file '{file_name}.json' will be overwritten.")
+                    return file_name+".json"
+                else:
+                    print("Please enter a new file name.")
             else:
                 print(f"The file will be saved as '{file_name}.json' in the 'result/' directory.")
                 return file_name+".json"

@@ -1,4 +1,7 @@
 import random
+import json
+import time
+import sys
 from cube import Cube,np
 
 def roulette_wheel_selection(population):
@@ -115,8 +118,16 @@ def mutate(state):
     return state
 
 
-def genetic_algorithm(population_size, max_iterations, mutation_rate):
+def genetic_algorithm(population_size, max_iterations, mutation_rate, output_file=None):
     # Initialize the population
+    if output_file:
+        history = []
+
+    sys.stdout.write("Loading...\n")
+    sys.stdout.flush()
+
+    start_time = time.time()
+
     population = initialize_population(population_size)
     
     for iteration in range(max_iterations):
@@ -148,14 +159,28 @@ def genetic_algorithm(population_size, max_iterations, mutation_rate):
         
         # Check if goal found alias 315
         best_individual = min(population, key=lambda cube: cube.fitness_value)
-        # if isGoalState(best_individual): 
-        if best_individual.fitness_value == 315: 
-            print(f"Solution found in iteration {iteration}")
-            return best_individual
-        
-        print(f"Iteration {iteration}: Best fitness = {best_individual.fitness_value}\n\n")
-    
-    print("No perfect solution found within the maximum iterations.")
-    return best_individual
 
-best_individual = genetic_algorithm(3, 250, 0.05)
+        if output_file:
+            history.append({
+                "iteration": iteration + 1,
+                "state": [[row.tolist() for row in layer] for layer in best_individual.state],
+                "fitness_value": int(best_individual.fitness_value)
+            })
+
+            with open("result/"+output_file, "w") as f:
+                    json.dump(history, f, indent=4)
+
+        # if isGoalState(best_individual): 
+        if best_individual.fitness_value == 0: 
+            break
+
+        if iteration % 10 == 0:
+                sys.stdout.write("\rCurrent iteration: {}".format(iteration))
+                sys.stdout.flush()
+                time.sleep(0.1)
+
+    finish_time = time.time()
+    sys.stdout.write("\r" + " " * 50 + "\r")
+    sys.stdout.write("\033[F" + " " * 50 + "\r")
+
+    return best_individual, iteration, (finish_time - start_time)

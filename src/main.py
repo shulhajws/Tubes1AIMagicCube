@@ -3,6 +3,9 @@ from steepest_hill_climb import SteepestHillClimb
 from sideways_hill_climb import SidewaysHillClimb
 from random_restart_hill_climb import RandomRestartHillClimb
 from stochastic_hill_climb import StochasticHillClimb
+from simulated_annealing_algorithm import SimulatedAnnealing
+from genetic_algorithm import genetic_algorithm
+
 from visualizer import plot_cube_state
 from cube_replay import CubeReplayPlayer, isReplayIncluded
 import tkinter as tk
@@ -13,11 +16,11 @@ def generate_cube():
     print("Generating Initial Cube State...")
     cube = Cube()
     
-    time.sleep(0.8)
+    time.sleep(0.6)
     print()
     print("Initial Cube State:")
     cube.display()
-    print("Initial Fitness:", cube.fitness_value)
+    print(f"Initial Fitness: {cube.fitness_value:.2f}")
     print()
 
     ans = input("Do you want to see the cube's 3d representation? (y/n): ")
@@ -26,14 +29,7 @@ def generate_cube():
     
     return cube
 
-def play_cube_replay():
-    root = tk.Tk()
-    player = CubeReplayPlayer(root)
-    player.load_file()
-    root.protocol("WM_DELETE_WINDOW", player.stop)
-    root.mainloop()
-
-def instant_play_cube_replay(output_file):
+def play_cube_replay(output_file=None):
     root = tk.Tk()
     player = CubeReplayPlayer(root)
     player.load_file(output_file)
@@ -79,10 +75,11 @@ def main():
                 print("4. Stochastic Hill Climbing")
                 print("5. Simulated Annealing")
                 print("6. Genetic Algorithm")
+                print("7. Back to Main Menu")
 
                 while True:
                     ans = input("Choose the algorithm you want to use: ")
-                    if ans in ["1", "2", "3", "4", "5", "6"]:
+                    if ans in ["1", "2", "3", "4", "5", "6", "7"]:
                         break
                     print("Invalid input. Please try again.")
                     print()
@@ -92,35 +89,89 @@ def main():
 
                 if ans == "1":
                     climber = SteepestHillClimb(cube)
-                    result, final_iteration = climber.climb(output_file)
+
+                    max_iteration = int(input("Input the maximum iteration (default 1000): "))
+                    print()
+
+                    if not max_iteration:
+                        max_iteration = 1000
+                    
+                    result, final_iteration, final_time = climber.climb(output_file, max_iteration)
+
                 elif ans == "2":
                     climber = SidewaysHillClimb(cube)
-                    result, final_iteration = climber.climb(output_file)
+
+                    max_iteration = int(input("Input the maximum iteration (default 1000): "))
+                    print()
+
+                    if not max_iteration:
+                        max_iteration = 1000
+                    
+                    result, final_iteration, final_time = climber.climb(output_file, max_iteration)
+
                 elif ans == "3":
                     climber = RandomRestartHillClimb(cube)
-                    result, final_iteration = climber.climb(output_file)
+
+                    max_restart = int(input("Input the maximum restart (default 20): "))
+                    max_iteration = int(input("Input the maximum iteration (default 1000): "))
+                    print()
+
+                    if not max_restart:
+                        max_restart = 20
+                    if not max_iteration:
+                        max_iteration = 1000
+
+                    result, final_iteration, final_time = climber.climb(output_file, max_restart, max_iteration)
+
                 elif ans == "4":
                     climber = StochasticHillClimb(cube)
-                    result, final_iteration = climber.climb(output_file)
+
+                    max_iteration = int(input("Input the maximum iteration (default 1000): "))
+                    print()
+
+                    if not max_iteration:
+                        max_iteration = 1000
+
+                    result, final_iteration, final_time = climber.climb(output_file, max_iteration)
+
                 elif ans == "5":
-                    print("Simulated Annealing is not yet implemented.")
+                    algorithm = SimulatedAnnealing(cube)
+
+                    threshold = float(input("Input the threshold (default 0.5): "))
+                    print()
+
+                    if not threshold:
+                        threshold = 0.5
+                    
+                    result, final_iteration, final_time = algorithm.simulated_annealing_algorithm(threshold, output_file)
+
                 elif ans == "6":
-                    print("Genetic Algorithm is not yet implemented.")
+                    population_size = int(input("Input the population size: "))
+                    max_iterations = int(input("Input the maximum iteration: "))
+                    mutation_rate = float(input("Input the mutation rate: "))
+                    print()
+                    
+                    result, final_iteration, final_time = genetic_algorithm(population_size, max_iterations, mutation_rate, output_file)
+
+                elif ans == "7":
+                    break   
                 
-                
+                print("\n\n")
+                print(f"Final cube state is reached after {final_iteration} iterations in {final_time:.2f} seconds.")
                 print()
-                print("Final Cube State after Climbing:")
+                print("Final cube state after climbing:")
                 result.display()
-                print("Final Fitness:", result.fitness_value)
+                print(f"Final Fitness: {result.fitness_value:.2f}")
 
                 print()
                 ans = input("Do you want to see the final cube's 3d representation? (y/n): ")
                 if ans.lower() == "y":
                     plot_cube_state(result, final_iteration)
                 
-                ans = input("Do you want to watch the replay of the cube solving process? (y/n): ")
-                if ans.lower() == "y":
-                    instant_play_cube_replay(output_file)
+                if output_file:
+                    ans = input("Do you want to watch the replay of the cube solving process? (y/n): ")
+                    if ans.lower() == "y":
+                        play_cube_replay(output_file)
 
                 print()
                 print("Cube Menu:")

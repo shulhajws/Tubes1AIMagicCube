@@ -1,4 +1,6 @@
 import json
+import sys
+import time
 
 class SidewaysHillClimb:
     def __init__(self, cube):
@@ -21,7 +23,14 @@ class SidewaysHillClimb:
         return best_successor
 
     def climb(self, output_file, max_iterations=1000):
-        for iteration in range(max_iterations):
+        iteration = 0
+
+        sys.stdout.write("Loading...\n")
+        sys.stdout.flush()
+
+        start_time = time.time()
+
+        while iteration < max_iterations:
             best_successor = self.find_best_successor()
 
             if best_successor.fitness_value > self.current_cube.fitness_value:
@@ -29,7 +38,7 @@ class SidewaysHillClimb:
 
             self.current_cube = best_successor
 
-            if output_file is not None:
+            if output_file:
                 self.history.append({
                     "iteration": iteration + 1,
                     "state": [[row.tolist() for row in layer] for layer in self.current_cube.state],
@@ -39,9 +48,18 @@ class SidewaysHillClimb:
                 with open("result/"+output_file, "w") as f:
                     json.dump(self.history, f, indent=4)
 
-            print(f"Iteration {iteration+1}: Fitness = {self.current_cube.fitness_value}")
-
             if self.current_cube.fitness_value == 0:
                 break
 
-        return self.current_cube, iteration
+            if iteration % 10 == 0:
+                sys.stdout.write("\rCurrent iteration: {}".format(iteration))
+                sys.stdout.flush()
+                time.sleep(0.1)
+
+            iteration += 1
+
+        finish_time = time.time()
+        sys.stdout.write("\r" + " " * 50 + "\r")
+        sys.stdout.write("\033[F" + " " * 50 + "\r")
+
+        return self.current_cube, iteration, (finish_time - start_time)
