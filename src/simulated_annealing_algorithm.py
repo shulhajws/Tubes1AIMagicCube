@@ -15,6 +15,7 @@ class SimulatedAnnealing :
         }]
         self.probability_values = []
         self.probability_iterations = []
+        self.worse_moves_accepted = 0
 
     def temperature_function(self, choice, iteration) :
         result = 0
@@ -63,6 +64,7 @@ class SimulatedAnnealing :
                     current_state = neighbor
                     self.probability_values.append(probability)
                     self.probability_iterations.append(i)
+                    self.worse_moves_accepted += 1
             
             if output_file:
                 self.history.append({

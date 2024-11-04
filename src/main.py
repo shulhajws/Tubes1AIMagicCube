@@ -150,6 +150,7 @@ def main():
                         threshold = 0.5
                     
                     result, final_iteration, final_time = algorithm.simulated_annealing_algorithm(threshold, output_file)
+                    print("Worse moves accepted :", algorithm.worse_moves_accepted)
 
                 elif ans == "6":
                     population_size = int(input("Input the population size: "))
