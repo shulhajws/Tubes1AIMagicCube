@@ -130,11 +130,14 @@ def isReplayIncluded():
                 if ans.lower() == "y":
                     open(file_path, 'w').close()
                     print(f"The file '{file_name}.json' will be overwritten.")
+                    print()
                     return file_name+".json"
                 else:
                     print("Please enter a new file name.")
+                    print()
             else:
                 print(f"The file will be saved as '{file_name}.json' in the 'result/' directory.")
+                print()
                 return file_name+".json"
     else:
         return "temp-68943268950973503917903-347909730149437079043.json"
