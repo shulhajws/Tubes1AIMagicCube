@@ -146,15 +146,15 @@ def objective_function_latest(cube):
             # Column [i, :, j]
             column_sum = np.sum(cube[i, :, j])
             deviation = calculate_line_sum_deviation(column_sum)
-            # update_best_lines(deviation, [i, -1, j])
-            # update_worst_lines(deviation, [i, -1, j])
+            update_best_lines(deviation, [i, -1, j])
+            update_worst_lines(deviation, [i, -1, j])
             line_sums.append(column_sum)
 
             # Pillar [:, i, j]
             pillar_sum = np.sum(cube[:, i, j])
             deviation = calculate_line_sum_deviation(pillar_sum)
-            # update_best_lines(deviation, [-1, i, j])
-            # update_worst_lines(deviation, [-1, i, j])
+            update_best_lines(deviation, [-1, i, j])
+            update_worst_lines(deviation, [-1, i, j])
             line_sums.append(pillar_sum)
 
     # Calculate face diagonals (diagonals on each face)
