@@ -7,7 +7,7 @@ from cube import Cube,np
 def roulette_wheel_selection(population):
     """Select a parent from the population using roulette wheel selection based on fitness."""
     total_fitness = sum(cube.fitness_value for cube in population)
-    relative_fitness = [round(cube.fitness_value * 100 / total_fitness, 3) for cube in population]
+    relative_fitness = [round(cube.fitness_value * 100 / total_fitness, 2) for cube in population]
     cumulative_probabilities = np.cumsum(relative_fitness)
 
     rand = random.random() * 100
@@ -33,7 +33,6 @@ def resolve_mapping_conflicts(child, mapping, crossover_indices):
             visited.add(value)
             value = mapping[value]
 
-            # Handle cycle
             if value in visited:
                 break  
 
@@ -74,7 +73,7 @@ def crossover_optimized(parent1, parent2):
                     mapping1[ori_val] = parent2.state[best_line_indices_parent2[0], j, best_line_indices_parent2[2]]
                     mapping2[parent2.state[best_line_indices_parent2[0], j, best_line_indices_parent2[2]]] = ori_val
 
-        elif worst_line_indices_parent1[0] == -1:  # Best line is a pillar
+        elif worst_line_indices_parent1[0] == -1:  # Worst line is a pillar
             for i in range(5):
                 ori_val = child1[i, worst_line_indices_parent1[1], worst_line_indices_parent1[2]]
                 child1[i, worst_line_indices_parent1[1], worst_line_indices_parent1[2]] = parent2.state[i, best_line_indices_parent2[1], best_line_indices_parent2[2]]
@@ -153,12 +152,13 @@ def genetic_algorithm(population_size, max_iterations, mutation_rate, output_fil
                 
             new_population.append(child1)
             new_population.append(child2)
+           
+        # Select the best individuals from the parent and child population
+        combined_population = population + new_population
+        combined_population.sort(key=lambda cube: cube.fitness_value)
+        population = combined_population[:population_size]  
         
-        # Update the population for the next iteration
-        population = new_population[:population_size]
-        
-        # Check if goal found alias 315
-        best_individual = min(population, key=lambda cube: cube.fitness_value)
+        best_individual = population[0]
 
         if output_file:
             history.append({
