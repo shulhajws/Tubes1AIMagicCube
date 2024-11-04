@@ -58,8 +58,8 @@ class SidewaysHillClimb:
 
             iteration += 1
 
+        finish_time = time.time()
         sys.stdout.write("\r" + " " * 50 + "\r")
         sys.stdout.write("\033[F" + " " * 50 + "\r")
-        finish_time = time.time()
 
         return self.current_cube, iteration, (finish_time - start_time)

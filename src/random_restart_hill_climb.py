@@ -4,19 +4,17 @@ from cube import Cube
 from steepest_hill_climb import SteepestHillClimb
 
 class RandomRestartHillClimb:
-    def __init__(self, cube, max_restarts=20, max_iterations=1000):
+    def __init__(self, cube):
         self.initial_cube = cube
-        self.max_restarts = max_restarts
-        self.max_iterations = max_iterations
         self.best_cube = None
         self.best_fitness = float('inf')
 
-    def climb(self, output_file):
+    def climb(self, output_file=None, max_restarts=20, max_iterations=1000):
         current_iteration = 0
 
         start_time = time.time()
 
-        for restart in range(self.max_restarts):
+        for restart in range(max_restarts):
             sys.stdout.write("\rRestart: {}\n".format(restart))
             sys.stdout.flush()
             if restart > 0:
@@ -26,7 +24,7 @@ class RandomRestartHillClimb:
                 current_cube = self.initial_cube
                 climber = SteepestHillClimb(current_cube)
 
-            result, _, _ = climber.climb(output_file, self.max_iterations, current_iteration)
+            result, _, _ = climber.climb(output_file, max_iterations, current_iteration)
             
             current_iteration = climber.get_final_iteration()
 

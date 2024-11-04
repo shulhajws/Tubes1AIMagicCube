@@ -69,16 +69,16 @@ class SimulatedAnnealing :
                 with open("result/"+output_file, "w") as f:
                     json.dump(self.history, f, indent=4)
             
-            if i % 100 == 0:
+            if i % 10 == 0:
                 sys.stdout.write("\rCurrent iteration: {}".format(i))
                 sys.stdout.flush()
                 time.sleep(0.1)
             
             i += 1
 
+        finish_time = time.time()
         sys.stdout.write("\r" + " " * 50 + "\r")
         sys.stdout.write("\033[F" + " " * 50 + "\r")
-        finish_time = time.time()
 
         return current_state, i, (finish_time - start_time)
         

@@ -4,6 +4,8 @@ from sideways_hill_climb import SidewaysHillClimb
 from random_restart_hill_climb import RandomRestartHillClimb
 from stochastic_hill_climb import StochasticHillClimb
 from simulated_annealing_algorithm import SimulatedAnnealing
+from genetic_algorithm import genetic_algorithm
+
 from visualizer import plot_cube_state
 from cube_replay import CubeReplayPlayer, isReplayIncluded
 import tkinter as tk
@@ -87,21 +89,70 @@ def main():
 
                 if ans == "1":
                     climber = SteepestHillClimb(cube)
-                    result, final_iteration, final_time = climber.climb(output_file)
+
+                    max_iteration = int(input("Input the maximum iteration (default 1000): "))
+                    print()
+
+                    if not max_iteration:
+                        max_iteration = 1000
+                    
+                    result, final_iteration, final_time = climber.climb(output_file, max_iteration)
+
                 elif ans == "2":
                     climber = SidewaysHillClimb(cube)
-                    result, final_iteration, final_time = climber.climb(output_file)
+
+                    max_iteration = int(input("Input the maximum iteration (default 1000): "))
+                    print()
+
+                    if not max_iteration:
+                        max_iteration = 1000
+                    
+                    result, final_iteration, final_time = climber.climb(output_file, max_iteration)
+
                 elif ans == "3":
                     climber = RandomRestartHillClimb(cube)
-                    result, final_iteration, final_time = climber.climb(output_file)
+
+                    max_restart = int(input("Input the maximum restart (default 20): "))
+                    max_iteration = int(input("Input the maximum iteration (default 1000): "))
+                    print()
+
+                    if not max_restart:
+                        max_restart = 20
+                    if not max_iteration:
+                        max_iteration = 1000
+
+                    result, final_iteration, final_time = climber.climb(output_file, max_restart, max_iteration)
+
                 elif ans == "4":
                     climber = StochasticHillClimb(cube)
-                    result, final_iteration, final_time = climber.climb(output_file)
+
+                    max_iteration = int(input("Input the maximum iteration (default 1000): "))
+                    print()
+
+                    if not max_iteration:
+                        max_iteration = 1000
+
+                    result, final_iteration, final_time = climber.climb(output_file, max_iteration)
+
                 elif ans == "5":
                     algorithm = SimulatedAnnealing(cube)
-                    result, final_iteration, final_time = algorithm.simulated_annealing_algorithm(0.5, output_file)
+
+                    threshold = float(input("Input the threshold (default 0.5): "))
+                    print()
+
+                    if not threshold:
+                        threshold = 0.5
+                    
+                    result, final_iteration, final_time = algorithm.simulated_annealing_algorithm(threshold, output_file)
+
                 elif ans == "6":
-                    print("Genetic Algorithm is not yet implemented.")
+                    population_size = int(input("Input the population size: "))
+                    max_iterations = int(input("Input the maximum iteration: "))
+                    mutation_rate = float(input("Input the mutation rate: "))
+                    print()
+                    
+                    result, final_iteration, final_time = genetic_algorithm(population_size, max_iterations, mutation_rate, output_file)
+
                 elif ans == "7":
                     break   
                 
