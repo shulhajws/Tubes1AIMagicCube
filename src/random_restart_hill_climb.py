@@ -1,4 +1,5 @@
-import json
+import time
+import sys
 from cube import Cube
 from steepest_hill_climb import SteepestHillClimb
 
@@ -12,7 +13,12 @@ class RandomRestartHillClimb:
 
     def climb(self, output_file):
         current_iteration = 0
+
+        start_time = time.time()
+
         for restart in range(self.max_restarts):
+            sys.stdout.write("\rRestart: {}\n".format(restart))
+            sys.stdout.flush()
             if restart > 0:
                 current_cube = Cube()
                 climber = SteepestHillClimb(current_cube, output_file, current_iteration)
@@ -20,7 +26,7 @@ class RandomRestartHillClimb:
                 current_cube = self.initial_cube
                 climber = SteepestHillClimb(current_cube)
 
-            result, new_interation = climber.climb(output_file, self.max_iterations, current_iteration)
+            result, _, _ = climber.climb(output_file, self.max_iterations, current_iteration)
             
             current_iteration = climber.get_final_iteration()
 
@@ -28,9 +34,12 @@ class RandomRestartHillClimb:
                 self.best_cube = result
                 self.best_fitness = result.fitness_value
 
-            print(f"Restart {restart + 1}: Fitness = {result.fitness_value}")
-
             if self.best_fitness == 0:
+                sys.stdout.write("\033[F" + " " * 50 + "\r")
                 break
 
-        return self.best_cube, current_iteration
+            sys.stdout.write("\033[F" + " " * 50 + "\r")
+        
+        finish_time = time.time()
+
+        return self.best_cube, current_iteration, (finish_time - start_time)

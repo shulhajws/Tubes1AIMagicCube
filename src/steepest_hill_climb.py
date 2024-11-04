@@ -1,4 +1,6 @@
 import json
+import sys
+import time
 
 class SteepestHillClimb:
     def __init__(self, cube, history=None, initial_iteration=0):
@@ -40,6 +42,11 @@ class SteepestHillClimb:
         else:
             x = 1
         
+        sys.stdout.write("Loading...\n")
+        sys.stdout.flush()
+
+        start_time = time.time()
+
         iteration = 0
         while iteration < max_iterations:
             best_successor = self.find_best_successor()
@@ -59,15 +66,22 @@ class SteepestHillClimb:
                 with open("result/"+output_file, "w") as f:
                     json.dump(self.history, f, indent=4)
 
-            print(f"Iteration {iteration+1}: Fitness = {self.current_cube.fitness_value}")
-
             if self.current_cube.fitness_value == 0:
                 break
+            
+            if iteration % 10 == 0:
+                sys.stdout.write("\rCurrent iteration: {}".format(iteration))
+                sys.stdout.flush()
+                time.sleep(0.1)
 
             iteration += 1
 
+        sys.stdout.write("\r" + " " * 50 + "\r")
+        sys.stdout.write("\033[F" + " " * 50 + "\r")
+        finish_time = time.time()
+
         self.final_iteration = iteration + self.initial_iteration  
-        return self.current_cube, iteration
+        return self.current_cube, iteration, (finish_time - start_time)
     
     def get_final_iteration(self):
         return self.final_iteration
