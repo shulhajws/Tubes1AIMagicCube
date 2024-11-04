@@ -22,9 +22,10 @@ class SidewaysHillClimb:
 
         return best_successor
 
-    def climb(self, output_file, max_iterations=1000):
+    def climb(self, output_file, max_iterations=1000, max_sideways=50):
         iteration = 0
         fitness_value_per_iteration = {}
+        sideways = 0
 
         sys.stdout.write("Loading...\n")
         sys.stdout.flush()
@@ -37,7 +38,16 @@ class SidewaysHillClimb:
 
             if best_successor.fitness_value > self.current_cube.fitness_value:
                 break
-
+            
+            if sideways < max_sideways:
+                sideways += 1
+                if best_successor.fitness_value == self.current_cube.fitness_value:
+                    sideways += 1
+                else:
+                    sideways = 0
+            else:
+                break
+            
             self.current_cube = best_successor
             fitness_value_per_iteration[iteration] = self.current_cube.fitness_value
 
