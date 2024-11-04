@@ -130,8 +130,10 @@ def main():
                         max_iteration = 1000
 
                     result, final_iteration, iterations_per_restart, final_time = climber.climb(output_file, max_restart, max_iteration)
+
                     for restart in iterations_per_restart:
-                        print(f"Restart: {restart[0]} - Jumlah Iterasi: {restart[1]}\n")
+                        print(f"Restart: {restart[0]} - Jumlah Iterasi: {restart[1]}")
+                    print()
 
                 elif ans == "4":
                     climber = StochasticHillClimb(cube)
@@ -154,7 +156,9 @@ def main():
                         threshold = 0.5
                     
                     result, final_iteration, final_time = algorithm.simulated_annealing_algorithm(threshold, output_file)
+
                     print("Worse moves accepted :", algorithm.worse_moves_accepted)
+                    print()
 
                 elif ans == "6":
                     population_size = int(input("Input the population size: "))
@@ -185,11 +189,13 @@ def main():
                     plot_objective_function(output_file)
 
                 if algorithm:
+                    print()
                     ans = input("Do you want to see the probability values over iterations? (y/n): ")
                     if ans.lower() == "y":
                         plot_probability(algorithm)
                 
                 if output_file != "temp-68943268950973503917903-347909730149437079043.json":
+                    print()
                     ans = input("Do you want to watch the replay of the cube solving process? (y/n): ")
                     if ans.lower() == "y":
                         play_cube_replay(output_file)

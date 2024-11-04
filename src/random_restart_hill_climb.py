@@ -25,10 +25,10 @@ class RandomRestartHillClimb:
                 current_cube = self.initial_cube
                 climber = SteepestHillClimb(current_cube)
 
-            result, _, _ = climber.climb(output_file, max_iterations, current_iteration)
+            result, iteration, _ = climber.climb(output_file, max_iterations, current_iteration)
             
             current_iteration = climber.get_final_iteration()
-            iterations_per_restart.append([restart+1, current_iteration])
+            iterations_per_restart.append([restart, iteration])
 
             if result.fitness_value < self.best_fitness:
                 self.best_cube = result
