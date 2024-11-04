@@ -89,6 +89,8 @@ def main():
                 print()
                 output_file = isReplayIncluded()
 
+                algorithm = None
+
                 if ans == "1":
                     climber = SteepestHillClimb(cube)
 
