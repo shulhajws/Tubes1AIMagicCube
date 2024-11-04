@@ -10,6 +10,7 @@ class RandomRestartHillClimb:
         self.best_fitness = float('inf')
 
     def climb(self, output_file=None, max_restarts=20, max_iterations=1000):
+        iterations_per_restart = []
         current_iteration = 0
 
         start_time = time.time()
@@ -27,6 +28,7 @@ class RandomRestartHillClimb:
             result, _, _ = climber.climb(output_file, max_iterations, current_iteration)
             
             current_iteration = climber.get_final_iteration()
+            iterations_per_restart.append([restart+1, current_iteration])
 
             if result.fitness_value < self.best_fitness:
                 self.best_cube = result
@@ -40,4 +42,4 @@ class RandomRestartHillClimb:
         
         finish_time = time.time()
 
-        return self.best_cube, current_iteration, (finish_time - start_time)
+        return self.best_cube, current_iteration, iterations_per_restart, (finish_time - start_time)

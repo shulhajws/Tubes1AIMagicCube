@@ -121,7 +121,9 @@ def main():
                     if not max_iteration:
                         max_iteration = 1000
 
-                    result, final_iteration, final_time = climber.climb(output_file, max_restart, max_iteration)
+                    result, final_iteration, iterations_per_restart, final_time = climber.climb(output_file, max_restart, max_iteration)
+                    for restart in iterations_per_restart:
+                        print(f"Restart: {restart[0]} - Jumlah Iterasi: {restart[1]}\n")
 
                 elif ans == "4":
                     climber = StochasticHillClimb(cube)
